@@ -14,15 +14,10 @@ public class Dvd extends Document implements Empruntable {
     }
 
     @Override
-    public void emprunter() throws DocumentIndisponibleException {
-
+    public void emprunter() {
 
         if (emprunte) {
-
-
-            throw new DocumentIndisponibleException(
-                    "Le DVD '" + getTitre() + "' est déjà emprunté."
-            );
+            throw new IllegalStateException("DVD déjà emprunté");
         }
 
         emprunte = true;
