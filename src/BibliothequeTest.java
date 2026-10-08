@@ -3,24 +3,25 @@ import org.junit.jupiter.api.Test;
 public class BibliothequeTest {
 
     @Test
-    void testEmpruntNormal() {
-        Livre l = new Livre("ABC", "Tom");
+    void testEmpruntNormal() throws DocumentIndisponibleException  {
+        Livre l = new Livre("A1", "Tom");
         l.emprunter();
 
         System.out.println("Emprunt effectué correctement");
     }
 
     @Test
-    void testDoubleEmprunt() {
-        Livre l = new Livre("ABC", "Tom");
-        l.emprunter();
+    void testDoubleEmprunt ()throws  DocumentIndisponibleException {
+        Livre l = new Livre("a2", "Tom");
+
 
         try {
             l.emprunter();
+            l.emprunter();
             System.out.println("Erreur : le double emprunt a été accepté");
         }
-        catch (IllegalStateException e) {
-            System.out.println("Test réussi : double emprunt refusé");
+        catch ( DocumentIndisponibleException  e) {
+            System.out.println("Exception détectée : "+e.getMessage());
         }
     }
 }
