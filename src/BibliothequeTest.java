@@ -24,4 +24,17 @@ public class BibliothequeTest {
             System.out.println("Exception détectée : "+e.getMessage());
         }
     }
+    @Test
+    void testBibliothecaire() {
+        Catalogue<Document> c = new Catalogue<>();
+
+        Bibliothecaire b = new Bibliothecaire("Aya", c);
+
+        b.accueillir();
+
+        Livre l = new Livre("Java", "Jacques");
+        b.ajouter(l);
+
+        c.afficherTout();
+    }
 }
