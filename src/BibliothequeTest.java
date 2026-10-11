@@ -37,4 +37,20 @@ public class BibliothequeTest {
 
         c.afficherTout();
     }
+    @Test
+    void testEmpruntManager() {
+        Catalogue<Document> c = new Catalogue<>();
+
+        c.ajouter(new Livre("Java", "Auteur"));
+
+        EmpruntManager manager = new EmpruntManager(c);
+
+        try {
+            manager.emprunter("Java");
+            manager.emprunter("Java");
+        }
+        catch (MediathequeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
