@@ -53,4 +53,51 @@ public class BibliothequeTest {
             System.out.println(e.getMessage());
         }
     }
+    @Test
+    void testDocumentIntrouvable() {
+        Catalogue<Document> c = new Catalogue<>();
+        EmpruntManager m = new EmpruntManager(c);
+
+        try {
+            m.emprunter("Java");
+            System.out.println("Erreur : exception non declenchee");
+        }
+        catch (DocumentIntrouvableException e) {
+            System.out.println("Exception detectee : " + e.getMessage());
+        }
+        catch (MediathequeException e) {
+            System.out.println("Mauvaise exception");
+        }
+    }
+    @Test
+    void testDocumentIndisponible() {
+        Catalogue<Document> c = new Catalogue<>();
+        c.ajouter(new Livre("Java", "Auteur"));
+
+        EmpruntManager m = new EmpruntManager(c);
+
+        try {
+            m.emprunter("Java");
+            m.emprunter("Java");
+
+            System.out.println("Erreur : double emprunt accepte");
+        }
+        catch (DocumentIndisponibleException e) {
+            System.out.println("Exception detectee : " + e.getMessage());
+
+            if (e.getMessage().contains("Java")) {
+                System.out.println("Le titre est present dans le message");
+            }
+        }
+        catch (MediathequeException e) {
+            System.out.println("Autre exception : " + e.getMessage());
+        }
+    }
+    @Test
+    void testExceptionMessage() {
+        DocumentIntrouvableException e =
+                new DocumentIntrouvableException("Document Java introuvable");
+
+        System.out.println(e.getMessage());
+    }
 }
