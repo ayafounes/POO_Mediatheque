@@ -1,103 +1,68 @@
+
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BibliothequeTest {
 
+    // Test d'un emprunt normal
     @Test
-    void testEmpruntNormal() throws DocumentIndisponibleException  {
-        Livre l = new Livre("A1", "Tom");
+    void testEmpruntNormal() throws DocumentIndisponibleException {
+
+        Livre l = new Livre("ABC", "Tom");
+
         l.emprunter();
 
         System.out.println("Emprunt effectué correctement");
     }
 
+    // Test d'un double emprunt
     @Test
-    void testDoubleEmprunt ()throws  DocumentIndisponibleException {
-        Livre l = new Livre("a2", "Tom");
+    void testDoubleEmprunt() throws DocumentIndisponibleException {
 
+        Livre l = new Livre("ABC", "Tom");
 
-        try {
-            l.emprunter();
-            l.emprunter();
-            System.out.println("Erreur : le double emprunt a été accepté");
-        }
-        catch ( DocumentIndisponibleException  e) {
-            System.out.println("Exception détectée : "+e.getMessage());
-        }
+        // Premier emprunt : il doit réussir
+        l.emprunter();
+
+        // Deuxième emprunt : il doit déclencher une exception
+        assertThrows(
+                DocumentIndisponibleException.class,
+                () -> l.emprunter()
+        );
+
+        System.out.println("Test réussi : double emprunt refusé");
     }
+
+    // Test du Design Pattern Iterator
     @Test
-    void testBibliothecaire() {
-        Catalogue<Document> c = new Catalogue<>();
+    void testParcoursCatalogueAvecIterator() {
 
-        Bibliothecaire b = new Bibliothecaire("Aya", c);
+        Catalogue<Document> catalogue = new Catalogue<>();
 
-        b.accueillir();
+        catalogue.ajouter(new Livre("Java", "Alice"));
+        catalogue.ajouter(new Dvd("Inception", "Christopher Nolan"));
+        catalogue.ajouter(new Revue("Science", 12));
 
-        Livre l = new Livre("Java", "Jacques");
-        b.ajouter(l);
+        int nombre = 0;
 
-        c.afficherTout();
+        for (Document document : catalogue) {
+            System.out.println(document.descriptionCourte());
+            nombre++;
+        }
+
+        assertEquals(3, nombre);
     }
+
+    // Test de recherche dans le catalogue
     @Test
-    void testEmpruntManager() {
-        Catalogue<Document> c = new Catalogue<>();
+    void testRechercheApresModification() {
 
-        c.ajouter(new Livre("Java", "Auteur"));
+        Catalogue<Document> catalogue = new Catalogue<>();
 
-        EmpruntManager manager = new EmpruntManager(c);
+        catalogue.ajouter(new Livre("Java", "Alice"));
 
-        try {
-            manager.emprunter("Java");
-            manager.emprunter("Java");
-        }
-        catch (MediathequeException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    @Test
-    void testDocumentIntrouvable() {
-        Catalogue<Document> c = new Catalogue<>();
-        EmpruntManager m = new EmpruntManager(c);
-
-        try {
-            m.emprunter("Java");
-            System.out.println("Erreur : exception non declenchee");
-        }
-        catch (DocumentIntrouvableException e) {
-            System.out.println("Exception detectee : " + e.getMessage());
-        }
-        catch (MediathequeException e) {
-            System.out.println("Mauvaise exception");
-        }
-    }
-    @Test
-    void testDocumentIndisponible() {
-        Catalogue<Document> c = new Catalogue<>();
-        c.ajouter(new Livre("Java", "Auteur"));
-
-        EmpruntManager m = new EmpruntManager(c);
-
-        try {
-            m.emprunter("Java");
-            m.emprunter("Java");
-
-            System.out.println("Erreur : double emprunt accepte");
-        }
-        catch (DocumentIndisponibleException e) {
-            System.out.println("Exception detectee : " + e.getMessage());
-
-            if (e.getMessage().contains("Java")) {
-                System.out.println("Le titre est present dans le message");
-            }
-        }
-        catch (MediathequeException e) {
-            System.out.println("Autre exception : " + e.getMessage());
-        }
-    }
-    @Test
-    void testExceptionMessage() {
-        DocumentIntrouvableException e =
-                new DocumentIntrouvableException("Document Java introuvable");
-
-        System.out.println(e.getMessage());
+        assertNotNull(catalogue.rechercherParTitre("Java"));
+        assertNull(catalogue.rechercherParTitre("Python"));
     }
 }
