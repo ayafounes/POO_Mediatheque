@@ -1,12 +1,12 @@
 public class EmpruntManager {
 
     private Catalogue<Document> catalogue;
+    private ConfigurationMediatheque config;
 
-    private ConfigurationMediatheque config =
-            ConfigurationMediatheque.getInstance();
-
-    public EmpruntManager(Catalogue<Document> catalogue) {
+    public EmpruntManager(Catalogue<Document> catalogue,
+                          ConfigurationMediatheque config) {
         this.catalogue = catalogue;
+        this.config = config;
     }
 
     public void emprunter(String titre) throws MediathequeException {
@@ -26,7 +26,7 @@ public class EmpruntManager {
         Empruntable e = (Empruntable) d;
         e.emprunter();
 
-        System.out.println("Emprunt effectue pour "
+        System.out.println("Duree : "
                 + config.getDureeEmprunt() + " jours");
     }
 }

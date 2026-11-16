@@ -104,27 +104,11 @@ public class BibliothequeTest {
 
         service.genererRapport(new java.util.ArrayList<Document>());
     }
-    @Test
-    void testSingleton() {
-        ConfigurationMediatheque c1 =
-                ConfigurationMediatheque.getInstance();
 
-        ConfigurationMediatheque c2 =
-                ConfigurationMediatheque.getInstance();
-
-        if (c1 == c2) {
-            System.out.println("Meme instance Singleton");
-        }
-        else {
-            System.out.println("Erreur Singleton");
-        }
-    }
     @Test
     void testDureePersonnalisee() {
         ConfigurationMediatheque c =
-                ConfigurationMediatheque.getInstance();
-
-        c.setDureeEmprunt(7);
+                new ConfigurationMediatheque(7, 5);
 
         System.out.println("Duree : " + c.getDureeEmprunt());
     }
@@ -132,13 +116,26 @@ public class BibliothequeTest {
     @Test
     void testDureeParDefaut() {
         ConfigurationMediatheque c =
-                ConfigurationMediatheque.getInstance();
+                new ConfigurationMediatheque(21, 5);
 
-        if (c.getDureeEmprunt() == 21) {
-            System.out.println("Duree par defaut correcte");
+        System.out.println("Duree : " + c.getDureeEmprunt());
+    }
+    @Test
+    void testEmpruntManagerAvecConfiguration() {
+
+        Catalogue<Document> c = new Catalogue<>();
+        c.ajouter(new Livre("Java", "Tom"));
+
+        ConfigurationMediatheque config =
+                new ConfigurationMediatheque(7, 5);
+
+        EmpruntManager m = new EmpruntManager(c, config);
+
+        try {
+            m.emprunter("Java");
         }
-        else {
-            System.out.println("Probleme : duree partagee entre les tests");
+        catch (MediathequeException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
