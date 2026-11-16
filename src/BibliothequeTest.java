@@ -156,4 +156,21 @@ public class BibliothequeTest {
             System.out.println(d.descriptionCourte());
         }
     }
+    @Test
+    void testImporteurLivreAudio() {
+
+        java.util.List<String> lignes = new java.util.ArrayList<>();
+
+        lignes.add("Java;Tom");
+        lignes.add("Python;Ali");
+
+        Importeur importeur = new ImporteurLignesLivresAudio();
+
+        java.util.List<Document> documents =
+                importeur.importer(lignes);
+
+        for (Document d : documents) {
+            System.out.println(d.descriptionCourte());
+        }
+    }
 }
