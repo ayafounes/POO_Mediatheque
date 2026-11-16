@@ -173,4 +173,28 @@ public class BibliothequeTest {
             System.out.println(d.descriptionCourte());
         }
     }
+    @Test
+    void testBuilder() {
+        Livre l = new Livre.Builder("Java", 2020)
+                .auteur("Tom")
+                .nbPages(350)
+                .isbn("123456")
+                .editeur("Eyrolles")
+                .langue("FR")
+                .build();
+
+        System.out.println(l.descriptionCourte());
+        System.out.println("Annee : " + l.getAnnee());
+        System.out.println("Pages : " + l.getNbPages());
+        System.out.println("ISBN : " + l.getIsbn());
+    }
+    @Test
+    void testBuilderInvalide() {
+
+        assertThrows(IllegalStateException.class, () -> {
+            new Livre.Builder("Java", 1400)
+                    .nbPages(0)
+                    .build();
+        });
+    }
 }
