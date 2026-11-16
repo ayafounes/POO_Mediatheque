@@ -8,7 +8,10 @@ public class ImporteurCsv extends Importeur {
         switch (c[0].trim()) {
 
             case "livre":
-                return new Livre(c[1].trim(), c[2].trim());
+                return new Livre.Builder(c[1].trim(), Integer.parseInt(c[3].trim()))
+                        .auteur(c[2].trim())
+                        .nbPages(Integer.parseInt(c[4].trim()))
+                        .build();
 
             case "dvd":
                 return new Dvd(c[1].trim(), c[2].trim());

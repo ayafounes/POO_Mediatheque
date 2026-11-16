@@ -197,4 +197,25 @@ public class BibliothequeTest {
                     .build();
         });
     }
+    @Test
+    void testAbstractFactory() {
+
+        Catalogue<Document> catalogue = new Catalogue<>();
+
+        catalogue.ajouter(new Livre("Java", "Tom"));
+        catalogue.ajouter(new Dvd("Inception", "Nolan"));
+        catalogue.ajouter(new Revue("Science", 12));
+
+        ExportCatalogue csv =
+                new ExportCatalogue(new FabriqueCsv());
+
+        System.out.println("EXPORT CSV :");
+        System.out.println(csv.exporter(catalogue));
+
+        ExportCatalogue html =
+                new ExportCatalogue(new FabriqueHtml());
+
+        System.out.println("EXPORT HTML :");
+        System.out.println(html.exporter(catalogue));
+    }
 }
