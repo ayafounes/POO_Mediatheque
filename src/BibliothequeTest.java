@@ -104,4 +104,19 @@ public class BibliothequeTest {
 
         service.genererRapport(new java.util.ArrayList<Document>());
     }
+    @Test
+    void testSingleton() {
+        ConfigurationMediatheque c1 =
+                ConfigurationMediatheque.getInstance();
+
+        ConfigurationMediatheque c2 =
+                ConfigurationMediatheque.getInstance();
+
+        if (c1 == c2) {
+            System.out.println("Meme instance Singleton");
+        }
+        else {
+            System.out.println("Erreur Singleton");
+        }
+    }
 }

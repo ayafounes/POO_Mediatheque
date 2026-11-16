@@ -2,6 +2,9 @@ public class EmpruntManager {
 
     private Catalogue<Document> catalogue;
 
+    private ConfigurationMediatheque config =
+            ConfigurationMediatheque.getInstance();
+
     public EmpruntManager(Catalogue<Document> catalogue) {
         this.catalogue = catalogue;
     }
@@ -12,17 +15,18 @@ public class EmpruntManager {
 
         if (d == null) {
             throw new DocumentIntrouvableException(
-                    "Document introuvable : " + titre
-            );
+                    "Document introuvable : " + titre);
         }
 
         if (!(d instanceof Empruntable)) {
             throw new DocumentIndisponibleException(
-                    "Document non empruntable : " + titre
-            );
+                    "Document non empruntable : " + titre);
         }
 
         Empruntable e = (Empruntable) d;
         e.emprunter();
+
+        System.out.println("Emprunt effectue pour "
+                + config.getDureeEmprunt() + " jours");
     }
 }
