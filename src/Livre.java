@@ -9,7 +9,7 @@ public class Livre extends Document implements Empruntable {
 
     private boolean emprunte = false;
 
-    // Constructeur de notre ancienne mediatheque
+    // Ancien constructeur
     public Livre(String titre, String auteur) {
         super(titre);
         this.auteur = auteur;
@@ -20,7 +20,7 @@ public class Livre extends Document implements Empruntable {
         this.langue = null;
     }
 
-    // Constructeur utilise par le Builder
+    // Constructeur du Builder
     private Livre(Builder b) {
         super(b.titre);
         this.auteur = b.auteur;
@@ -31,6 +31,19 @@ public class Livre extends Document implements Empruntable {
         this.langue = b.langue;
     }
 
+    // ETAPE 3 : Constructeur de copie (Prototype)
+    public Livre(Livre original) {
+        super(original.getTitre());
+        this.auteur = original.auteur;
+        this.annee = original.annee;
+        this.nbPages = original.nbPages;
+        this.isbn = original.isbn;
+        this.editeur = original.editeur;
+        this.langue = original.langue;
+        this.emprunte = original.emprunte;
+    }
+
+    // Pattern Builder
     public static class Builder {
 
         private final String titre;
@@ -91,7 +104,6 @@ public class Livre extends Document implements Empruntable {
             throw new DocumentIndisponibleException(
                     "Livre indisponible : " + getTitre());
         }
-
         emprunte = true;
     }
 

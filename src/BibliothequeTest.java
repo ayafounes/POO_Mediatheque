@@ -218,4 +218,26 @@ public class BibliothequeTest {
         System.out.println("EXPORT HTML :");
         System.out.println(html.exporter(catalogue));
     }
+    @Test
+    void testPrototype() {
+        Livre original = new Livre("Java", "Tom");
+
+        Livre copie = new Livre(original);
+
+        try {
+            copie.emprunter();
+
+            System.out.println("Copie empruntee");
+
+            original.emprunter();
+
+            System.out.println("Original toujours disponible");
+        }
+        catch (DocumentIndisponibleException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+
+        System.out.println(original.descriptionCourte());
+        System.out.println(copie.descriptionCourte());
+    }
 }
