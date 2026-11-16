@@ -240,4 +240,22 @@ public class BibliothequeTest {
         System.out.println(original.descriptionCourte());
         System.out.println(copie.descriptionCourte());
     }
+    @Test
+    void testFabriqueMarkdown() {
+
+        Catalogue<Document> catalogue = new Catalogue<>();
+
+        catalogue.ajouter(new Livre("Java", "Tom"));
+        catalogue.ajouter(new Dvd("Inception", "Nolan"));
+        catalogue.ajouter(new Revue("Science", 12));
+
+        ExportCatalogue export =
+                new ExportCatalogue(new FabriqueMarkdown());
+
+        System.out.println(export.exporter(catalogue));
+    }
+    //Réponse question Bonus: zéro fichier métier existant.
+    //
+    //Nous avons simplement ajouté FabriqueMarkdown.java.
+    // Le test a été ajouté à BibliothequeTest.java, mais les classes de production restent inchangées.
 }
