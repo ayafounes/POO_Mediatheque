@@ -119,4 +119,26 @@ public class BibliothequeTest {
             System.out.println("Erreur Singleton");
         }
     }
+    @Test
+    void testDureePersonnalisee() {
+        ConfigurationMediatheque c =
+                ConfigurationMediatheque.getInstance();
+
+        c.setDureeEmprunt(7);
+
+        System.out.println("Duree : " + c.getDureeEmprunt());
+    }
+
+    @Test
+    void testDureeParDefaut() {
+        ConfigurationMediatheque c =
+                ConfigurationMediatheque.getInstance();
+
+        if (c.getDureeEmprunt() == 21) {
+            System.out.println("Duree par defaut correcte");
+        }
+        else {
+            System.out.println("Probleme : duree partagee entre les tests");
+        }
+    }
 }
