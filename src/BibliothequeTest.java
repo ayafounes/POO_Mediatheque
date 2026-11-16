@@ -138,4 +138,22 @@ public class BibliothequeTest {
             System.out.println(e.getMessage());
         }
     }
+    @Test
+    void testImporteurCsv() {
+
+        java.util.List<String> lignes = new java.util.ArrayList<>();
+
+        lignes.add("livre;Java;Tom");
+        lignes.add("dvd;Inception;Christopher Nolan");
+        lignes.add("revue;Science;12");
+
+        Importeur importeur = new ImporteurCsv();
+
+        java.util.List<Document> documents =
+                importeur.importer(lignes);
+
+        for (Document d : documents) {
+            System.out.println(d.descriptionCourte());
+        }
+    }
 }
