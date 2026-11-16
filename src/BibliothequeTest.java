@@ -65,4 +65,43 @@ public class BibliothequeTest {
         assertNotNull(catalogue.rechercherParTitre("Java"));
         assertNull(catalogue.rechercherParTitre("Python"));
     }
+    @Test
+    void testRapportService() {
+
+        java.util.List<Document> docs = new java.util.ArrayList<>();
+
+        docs.add(new Livre("Java", "Tom"));
+        docs.add(new Livre("Python", "Ali"));
+
+        FormatRapport format = new FormatCsv();
+        SortieRapport sortie = new SortieFichier("rapport.csv");
+        NotificateurRapport notification = new NotificationConsole();
+
+        RapportService service =
+                new RapportService(format, sortie, notification);
+
+        service.genererRapport(docs);
+    }
+    @Test
+    void testDIP() {
+
+        FormatRapport fauxFormat = new FormatRapport() {
+            public String generer(java.util.List<Document> docs) {
+                return "Rapport de test";
+            }
+        };
+
+        SortieRapport fausseSortie = new SortieRapport() {
+            public void ecrire(String contenu) {
+                System.out.println("Contenu recu : " + contenu);
+            }
+        };
+
+        NotificateurRapport notification = new NotificationConsole();
+
+        RapportService service =
+                new RapportService(fauxFormat, fausseSortie, notification);
+
+        service.genererRapport(new java.util.ArrayList<Document>());
+    }
 }
